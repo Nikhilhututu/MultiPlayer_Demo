@@ -7,6 +7,7 @@ var io = require('socket.io').listen(server);
 let mPlayer=[];
 let roomid="nik";
 let mRoom=[];
+const port = process.env.PORT || 3000;
 app.use(express.static(__dirname + ''));
 app.use('/css'    ,express.static(__dirname + '/css'));
 app.use('/js'     ,express.static(__dirname + '/js'));
@@ -73,7 +74,7 @@ io.on('connection', function (socket){
 
   });
 });
- server.listen(8081, function () {
+ server.listen(port, function () {
   console.log(`Listening on ${server.address().port}`);
 });
 function CreateRoom(data,socket)
