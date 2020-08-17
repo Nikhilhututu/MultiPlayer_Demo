@@ -61,7 +61,7 @@ class GameScene extends Phaser.Scene {
     create ()
     {
 		
-		mSocket = io().connect();
+		mSocket = io().connect('https://multiplayerdemohtt.herokuapp.com/');
 		this.scale.lockOrientation('portrait');
         checkOriention(this.scale.orientation);
         this.scale.on('orientationchange', checkOriention, this);
