@@ -100,6 +100,20 @@ class GameScene extends Phaser.Scene {
 			console.log("Pid=========== "+mPId)
 		});
 		
+		mSocket.on("PlayerUpdate",function (pData){
+
+			console.log("update======== 2222");
+			for(let i=0;i<mPlayer.length;i++)
+			{
+				let  obj = JSON.parse(pData); 
+				mPlayer[i].set2(obj[i]);
+				
+				// else
+				// {
+				// 	mPlayer[i].set2(mPlayer[i]);
+				// }
+			}		
+		});
 		mSocket.on("disconnect",function (id){
 			console.log("disconnect ===== "+id)
 			for(let i=0;i<mPlayer.length;i++)
@@ -117,6 +131,9 @@ class GameScene extends Phaser.Scene {
 			}
 		
 		});
+		
+	
+
 		
 	}
 	update()  {

@@ -18,22 +18,24 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket){
    socket.emit('connected',socket.id);
    socket.on('PlayerCreate',function(playerData){
-      console.log("PlayerCreate====="+" !!!!!!!!!  "+playerData);
+      // console.log("PlayerCreate====="+" !!!!!!!!!  "+playerData);
       CreateRoom(playerData,socket);
   });
   socket.on('UpdatePlayer',function(playerData){
-      // console.log("UpdatePlayer "+playerData)
+      
       let obj = JSON.parse(playerData);
+      
       for(let i=0;i<mRoom.length;i++)  
       {
          for(let j=0;j<obj.length;j++)
          {
             if(obj[j].mRoomId === mRoom[i].mRoomId)
             {
+                // console.log("UpdatePlayer "+playerData +"       "+mRoom.length+"         "+obj.length);
                 mRoom[i].mRoomPlayer = JSON.stringify(obj);
                 mRoom[i].mRoomPlayer = JSON.parse(mRoom[i].mRoomPlayer);
-                // io.to(mRoom[i].mRoomId).emit('Update',playerData);
-                socket.broadcast.to(mRoom[i].mRoomId).emit('Update',playerData);
+                // io.in(mRoom[i].mRoomId).emit('PlayerUpdate',playerData);  
+                socket.broadcast.in(obj[j].mRoomId).emit('PlayerUpdate',playerData);
                 // console.log("On Updatttee "+obj[j].mRoomId+"      "+i+"      "+mRoom[i].mRoomPlayer);
             }
          }
@@ -91,6 +93,7 @@ function CreateRoom(data,socket)
        mRoom[id].mRoomPlayer.push(obj);
        socket.join(mRoom[id].mRoomId);
        io.to(mRoom[id].mRoomId).emit('NewPlayer',JSON.stringify(mRoom[id].mRoomPlayer));
+       console.log("!!!!CreateRoom!!!== "+JSON.stringify(mRoom[id].mRoomPlayer));
 
        
 }

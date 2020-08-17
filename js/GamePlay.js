@@ -87,12 +87,11 @@ function CreatePlayer()
 		{
 			mPlayer[i].set2(obj[i]);
 			if(mPlayer[i].id=== mSocket.id)
-					myId=i;
+				myId=i;
 
-			console.log("NewPlayer=== "+obj.length+"     "+myId);		
+			console.log("NewPlayer=== "+obj.length+"     "+JSON.stringify(mPlayer));		
 		}
 		mSocket.emit("UpdatePlayer",JSON.stringify(mPlayer));
-
 	});
 }
 
@@ -144,28 +143,10 @@ function KeyHandle(key)
 				mPlayer[myId].y-=.01;
 				break;
 		}
-
-	
-	// isKeyDown = true;
+		// isKeyDown = true;
+		console.log("##############  "+'KeyHandle========== ');
 		let data = JSON.stringify(mPlayer);
-		// console.log("###### "+data);
 		mSocket.emit("UpdatePlayer",data);
-		mSocket.on("Update",function (pData){
-			for(let i=0;i<mPlayer.length;i++)
-			{
-
-				// console.log("updateeee === "+mSocket.id+"     "+mPlayer.id);
-				if(mPlayer[i].id !== mSocket.id) 
-				{
-					let  obj = JSON.parse(pData); 
-					mPlayer[i].set2(obj[i]);
-				}
-				else
-				{
-					mPlayer[i].set2(mPlayer[i]);
-				}
-			}		
-		});
 	}
 }
 
